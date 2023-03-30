@@ -1,14 +1,25 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const habitSchema = new mongoose.Schema(
+const completionDateSchema = new Schema({
+  date: { type: Date, required: true },
+});
+
+const habitSchema = new Schema(
   {
-    title: {
+    name: { type: String, required: true },
+    /* target_days: { type: Number, required: true }, */
+    priority: {
       type: String,
-      required: [true, "Please provide a title for the habit"],
-      maxlength: [60, "Title cannot be more than 60 characters"],
+      enum: ["high", "medium", "low"],
+      required: true,
     },
+    frequency: {
+      type: Number,
+      required: true,
+    },
+    completion_dates: { type: [completionDateSchema], default: [] },
   },
-  { timestamps: true }
+  { timestamps: true, collection: "habits" }
 );
-
 export default mongoose.models.Habit || mongoose.model("Habit", habitSchema);
