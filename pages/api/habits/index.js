@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         const habit = await Habit.create(req.body);
         res.status(201).json({ success: true, data: habit });
       } catch (e) {
-        res.status(400).json({ success: false });
+        res.status(400).json({ success: false, error: e });
       }
       break;
     default:
