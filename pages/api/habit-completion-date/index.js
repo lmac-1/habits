@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import dbConnect from "@/lib/db";
 import Habit from "@/models/Habit";
 
@@ -39,11 +40,15 @@ async function addHabitCompletionDate(req, res) {
         .json({ message: "Completion date for the given date already exists" });
     }
 
+    // Generate an ObjectId
+    const newCompletionDateId = new mongoose.Types.ObjectId();
+
     // Add the completion date to the habit and save the habit
-    habit.completion_dates.push({ date });
+    const newCompletionDate = { _id: newCompletionDateId, date };
+    habit.completion_dates.push(newCompletionDate);
     await habit.save();
 
-    return res.status(200).json({ success: true, data: { habit } });
+    return res.status(200).json({ success: true, data: { newCompletionDate } });
   } catch (error) {
     console.error(error);
     return res.status(400).json({ success: false });
