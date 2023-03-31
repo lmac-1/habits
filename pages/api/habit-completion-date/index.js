@@ -9,10 +9,10 @@ export default async function handler(req, res) {
   switch (method) {
     case "POST":
       // Code for adding a new habit completion date
-      addHabitCompletionDate(req, res);
+      await addHabitCompletionDate(req, res);
       break;
     default:
-      return res.status(405).end(`Method ${req.method} Not Allowed`);
+      return res.status(405).json(`Method ${req.method} Not Allowed`);
   }
 }
 
@@ -35,9 +35,10 @@ async function addHabitCompletionDate(req, res) {
     );
 
     if (existingCompletionDate) {
-      return res
-        .status(400)
-        .json({ message: "Completion date for the given date already exists" });
+      return res.status(400).send({
+        success: false,
+        message: "Completion date for the given date already exists",
+      });
     }
 
     // Generate an ObjectId

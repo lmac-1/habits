@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 
     case "DELETE" /* Delete a habit by its ID */:
       try {
-        const deletedHabit = await Habit.deleteOne({ _id: id });
+        const deletedHabit = await Habit.findByIdAndDelete(id);
         if (!deletedHabit) {
           return res.status(404).json({ success: false });
         }

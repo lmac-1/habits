@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         if (!habit) {
           return res.status(404).json({ success: false });
         }
-        await habit.save();
+
         return res.status(200).json({ success: true, data: { habit } });
       } catch (e) {
         return res.status(400).json({ success: false });
