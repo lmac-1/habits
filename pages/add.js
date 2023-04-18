@@ -1,14 +1,33 @@
+import { useState } from "react";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import Button from "@/components/Button";
 import RadioGroup from "@/components/forms/RadioGroup";
 import TextField from "@/components/forms/TextField";
-import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 
 export default function Add() {
+  const router = useRouter();
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    setError("");
+    try {
+      await axios.post("/api/habits", {
+        ...data,
+      });
+      router.push("/");
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+      setError("Sorry, an error has occurred");
+    }
   };
   return (
-    <div className="w-80 mx-auto mt-4">
+    <div className="w-80 mx-auto mt-6">
       <h1 className="text-3xl mb-5">New habit</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
@@ -41,8 +60,10 @@ export default function Add() {
           register={register}
           label="Regularity"
         />
-
-        <button type="submit">Submit</button>
+        <Button disabled={loading} type="submit">
+          {!loading ? "Submit" : "Loading..."}
+        </Button>
+        <div className="mt-4 text-orange-700">{error}</div>
       </form>
     </div>
   );

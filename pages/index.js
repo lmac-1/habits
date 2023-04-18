@@ -3,6 +3,7 @@ import Habit from "@/models/Habit";
 import HabitTableContainer from "@/components/HabitTableContainer";
 import HabitTableDay from "@/components/HabitTableDay";
 import HabitTableRow from "@/components/HabitTableRow";
+import Link from "@/components/Link";
 import { getLastFiveDayCalendarValues } from "@/utils/getLastFiveDayCalendarValues";
 import { getDateDaysAgo } from "@/utils/getDateDaysAgo";
 
@@ -13,8 +14,11 @@ export default function Home({ habits, pastFiveDays }) {
   return (
     <>
       <div className="w-[450px] mx-auto mt-10">
-        <div>
+        <div className="flex justify-between mb-4 place-items-center">
           <h1 className="text-5xl">Habits</h1>
+          <Link href="/add" className="mr-5">
+            Add habit
+          </Link>
         </div>
         <HabitTableContainer>
           {calendar.map((day) => (
