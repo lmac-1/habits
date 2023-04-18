@@ -8,7 +8,6 @@ const completionDateSchema = new Schema({
 const habitSchema = new Schema(
   {
     name: { type: String, required: true },
-    /* target_days: { type: Number, required: true }, */
     priority: {
       type: String,
       enum: ["high", "medium", "low"],
